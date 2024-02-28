@@ -1,0 +1,1120 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package motorph;
+
+import java.util.*;
+import java.time.*;
+import java.text.*;
+
+
+public class SalaryCalculation {
+    
+    
+    public static void main (String[] args){
+        
+        DecimalFormat decfor = new DecimalFormat("0.00");  
+        
+        Scanner scan = new Scanner(System.in);
+        
+        // Employee names
+        String[] name = {"Invalid Credentils!","Manuel III Garcia","Antonio Lim","Bianca Sofia Aquino","Isabella Reyes","Eduard Hernande","Andrea Mae Villanueva","Brad  San Jose","Alice Romualdez","Rosie  Atienza","Roderick Alvaro","Anthony Salcedo","Josie  Lopez","Martha Farala","Leila Martinez","Fredrick  Romualdez","Christian Mata","Selena  De Leon","Allison  San Jose","Cydney  Rosario","Mark  Bautista","Darlene  Lazaro","Kolby  Delos Santos","Vella  Santos","Tomas Del Rosario","Jacklyn  Tolentino","Percival  Gutierrez","Garfield  Manalaysay","Lizeth  Villegas","Carol Ramos","Emelia Maceda","Delia Aguilar","John Rafael Castro","Carlos Ian Martinez","Beatriz Santos"};
+        
+        //Employee Positions
+        String[] pos = {"Invalid Credentils!","Chief Executive Officer","Chief Operating Officer","Chief Finance Officer","Chief Marketing Officer","IT Operations and Systems","HR Manager","HR Team Leader","HR Rank and File","HR Rank and File","Accounting Head","Payroll Manager","Payroll Team Leader","Payroll Rank andFile","Payroll Rank and File","Account Manager","Account Team Leader","Account Team Leader","Account Rank and File","Account Rank and File","Account Rank and File","Account Rank and File","Account Rank and File","Account Rank and File","Account Rank and File","Account Rank and File","Account Rank and File","Account Rank and File","Account Rank and File","Account Rank andFile","Account Rank and File","Account Rank and File","Sales & Marketing","Supply Chain and Logistics","Customer Service and Relations"};
+        
+        // stored all date in arrays
+        
+        double [] basic = {0,90000,60000,60000,60000,52670,52670,42975,22500,22500,52670,50825,38475,24000,24000,53500,42975,41850,22500,22500,23250,23250,24000,22500,22500,24000,24750,24750,24000,22500,22500,22500,52670,52670,52670};
+        double rice = 1500;
+        double [] phone = {0,2000,2000,2000,2000,1000,1000,800,500,500,1000,1000,800,500,500,1000,800,800,500,500,500,500,500,500,500,500,500,500,500,500,500,500,1000,1000,1000};
+        double[] cloth = {0,1000,1000,1000,1000,1000,1000,800,500,500,1000,1000,800,500,500,1000,800,800,500,500,500,500,500,500,500,500,500,500,500,500,500,500,1000,1000,1000};
+        double [] hr = { 0,535.71,357.14,357.14,357.14,313.51,313.51,255.80,133.93,133.93,313.51,302.53,229.02,142.86,142.86,318.45,255.80,249.11,133.93,133.93,138.39,138.39,142.86,133.93,133.93,142.86,147.32,147.32,142.86,133.93,133.93,133.93,313.51,313.51,313.51};
+        
+        Info info1 = new Info();
+        
+        info1.info();
+        System.out.println("");
+        
+               
+        System.out.print("To Calculate Salary please enter Employee No.: ");
+        String i = scan.next();
+        int eNum = Integer.parseInt(i);
+        
+        // date time report (week 1)
+        
+        LocalTime truetin = LocalTime.of(8,00); 
+        LocalTime graceP1 = LocalTime.of(8,11);
+        LocalTime graceP = LocalTime.of(8, 10); // grace period
+        LocalTime otStart = LocalTime.of(17, 00);
+        
+        System.out.println("\n-----W E E K 1-----");
+        
+        System.out.println("\nM O N D A Y");
+        System.out.print("TIME IN: ");
+        String mIn = scan.next();
+        System.out.print("TIME OUT: ");
+        String mOut = scan.next();
+        
+        
+        String[] mIn1 = mIn.split(":"); // splitting Time in input and storing it in an array
+        int mInh = Integer.parseInt(mIn1[0]);
+        int mInm = Integer.parseInt(mIn1[1]);
+        String[] mOut1 = mOut.split(":");
+        int mOuth = Integer.parseInt(mOut1[0]);
+        int mOutm = Integer.parseInt(mOut1[1]);
+        
+        LocalTime fmIn, fmOut; // String converted to int to use Local time to use Duration for twh calculation
+        fmIn = LocalTime.of(mInh, mInm);
+        fmOut = LocalTime.of(mOuth, mOutm);
+        
+        // Lates Calculation---------------------
+        
+        LocalTime[] roundfmIn = new LocalTime[1];
+        
+        if(fmIn.isAfter(truetin) && fmIn.isBefore(graceP1)){
+            fmIn = LocalTime.of(8, 00);
+            System.out.print("");
+                        
+        }else
+        if (fmIn.isAfter(graceP)) {
+            Duration late = Duration.between(graceP, fmIn); // CALCULATION OF LATES
+            var lmin = late.toMinutes();
+            System.out.println("Late by " + lmin + " minutes");
+            
+            for (int a = 0; a < 1; a++) {
+                System.out.print("");
+                LocalTime mtIn = fmIn;
+                roundfmIn[a] = mtIn;
+
+                System.out.println("");
+            }
+            }else{
+            System.out.print("");
+        }
+        
+        Duration mDur = Duration.between(fmIn, fmOut); // duration between time In and time out
+        var mMin = mDur.toMinutes(); // converting duration to  Minutes 
+        var fmMin = mMin-60; // -60 for 1 hour break
+        var mhh = Math.abs(fmMin/60); // dividing by 60 to get abs hours
+        var mmm = fmMin%60; // to get remainder mins
+        
+        
+        
+        //OVERTIME CALCULATION-----------------------------------
+        
+        int[] motpay = new int[1];
+        
+           if (fmOut.isAfter(otStart)) {
+            Duration mot = Duration.between(otStart, fmOut); 
+            var fmot = mot.toHours();
+            System.out.println("Overtime by " + fmot + " Hours");
+            
+            for (int m1 = 0; m1 < 1; m1++) {
+                System.out.print("");
+                int fotpay = Math.toIntExact(fmot);
+                motpay[m1] = fotpay;
+
+                System.out.print("");
+            }
+            }else{
+            System.out.print("");
+        }
+           
+           var fmon = Math.abs(mhh)+"."+Math.abs(mmm);
+        
+        System.out.println("Total work hours: "+ fmon);
+        
+        System.out.println("\nT U E S D A Y");
+        System.out.print("TIME IN: ");
+        String tIn = scan.next();
+        System.out.print("TIME OUT: ");
+        String tOut = scan.next();
+        
+        String[] tIn1 = tIn.split(":"); // splitting Time in input and storing it in an array
+        int tInh = Integer.parseInt(tIn1[0]);
+        int tInm = Integer.parseInt(tIn1[1]);
+        String[] tOut1 = tOut.split(":");
+        int tOuth = Integer.parseInt(tOut1[0]);
+        int tOutm = Integer.parseInt(tOut1[1]);
+        
+        LocalTime ftIn, ftOut; // String converted to int to use Local time to use Duration for twh calculation
+        ftIn = LocalTime.of(tInh, tInm);
+        ftOut = LocalTime.of(tOuth, tOutm);
+        
+        // Lates Calculation---------------------
+        
+        LocalTime[] roundftIn = new LocalTime[1];
+        
+        if(ftIn.isAfter(truetin) && ftIn.isBefore(graceP1)){
+            ftIn = LocalTime.of(8, 00);
+            System.out.print("");
+                        
+        }else
+        if (ftIn.isAfter(graceP)) {
+            Duration late = Duration.between(graceP, ftIn); // CALCULATION OF LATES
+            var lmin = late.toMinutes();
+            System.out.println("Late by " + lmin + " minutes");
+            
+            for (int a = 0; a < 1; a++) {
+                System.out.print("");
+                LocalTime ttIn = ftIn;
+                roundftIn[a] = ttIn;
+
+                System.out.println("");
+            }
+            }else{
+            System.out.print("");
+        }
+        
+        
+        Duration tDur = Duration.between(ftIn, ftOut); // duration between time In and time out
+        var tMin = tDur.toMinutes(); // converting duration to  Minutes 
+        var ftMin = tMin-60; // -60 for 1 hour break
+        var thh = Math.abs(ftMin/60); // dividing by 60 to get abs hours
+        var tmm = ftMin%60; // to get remainder mins
+        
+        
+        //OVERTIME CALCULATION-----------------------------------
+        
+        int[] totpay = new int[1];
+        
+        if (ftOut.isAfter(otStart)) {
+            Duration tot = Duration.between(otStart, ftOut); // CALCULATION OF LATES
+            var ftot = tot.toHours();
+            System.out.println("Overtime by " + ftot + " Hours");
+            
+            for (int m1 = 0; m1 < 1; m1++) {
+                System.out.print("");
+                int ftotpay = Math.toIntExact(ftot);
+                totpay[m1] = ftotpay;
+
+                System.out.print("");
+            }
+            }else{
+            System.out.print("");
+        }
+        
+        var ftue = Math.abs(thh)+"."+Math.abs(tmm);
+        
+        System.out.println("Total work hours: "+ ftue);
+        
+        
+        System.out.println("\nW E D N E S D A Y");
+        System.out.print("TIME IN: ");
+        String wIn = scan.next();
+        System.out.print("TIME OUT: ");
+        String wOut = scan.next();
+        
+        String[] wIn1 = wIn.split(":"); // splitting Time in input and storing it in an array
+        int wInh = Integer.parseInt(wIn1[0]);
+        int wInm = Integer.parseInt(wIn1[1]);
+        String[] wOut1 = wOut.split(":");
+        int wOuth = Integer.parseInt(wOut1[0]);
+        int wOutm = Integer.parseInt(wOut1[1]);
+        
+        LocalTime fwIn, fwOut; // String converted to int to use Local time to use Duration for twh calculation
+        fwIn = LocalTime.of(wInh, wInm);
+        fwOut = LocalTime.of(wOuth, wOutm);
+        
+        // Lates Calculation---------------------
+        
+        LocalTime[] roundfwIn = new LocalTime[1];
+        
+        if(fwIn.isAfter(truetin) && fwIn.isBefore(graceP1)){
+            fwIn = LocalTime.of(8, 00);
+            System.out.print("");
+                        
+        }else
+        if (fwIn.isAfter(graceP)) {
+            Duration late = Duration.between(graceP, fwIn); // CALCULATION OF LATES
+            var lmin = late.toMinutes();
+            System.out.println("Late by " + lmin + " minutes");
+            
+            for (int a = 0; a < 1; a++) {
+                System.out.print("");
+                LocalTime wtIn = fwIn;
+                roundfwIn[a] = wtIn;
+
+                System.out.println("");
+            }
+            }else{
+            System.out.print("");
+        }
+        
+        Duration wDur = Duration.between(fwIn, fwOut); // duration between time In and time out
+        var wMin = wDur.toMinutes(); // converting duration to  Minutes 
+        var fwMin = wMin-60; // -60 for 1 hour break
+        var whh = Math.abs(fwMin/60); // dividing by 60 to get abs hours
+        var wmm = fwMin%60; // to get remainder mins
+        
+        
+        // OVERTIME PAY ----------------------------------
+        
+        int[] wotpay = new int[1];
+        
+        if (fwOut.isAfter(otStart)) {
+            Duration wot = Duration.between(otStart, fwOut); 
+            var fwot = wot.toHours();
+            System.out.println("Overtime by " + fwot + " Hours");
+            
+            for (int m1 = 0; m1 < 1; m1++) {
+                System.out.print("");
+                int fwotpay = Math.toIntExact(fwot);
+                wotpay[m1] = fwotpay;
+
+                System.out.print("");
+            }
+            }else{
+            System.out.print("");
+        }
+        
+        var fwed = Math.abs(whh)+"."+Math.abs(wmm);
+        
+        System.out.println("Total work hours: "+ fwed);
+
+        System.out.println("\nT H U R S D A Y");
+        System.out.print("TIME IN: ");
+        String thIn = scan.next();
+        System.out.print("TIME OUT: ");
+        String thOut = scan.next();
+        
+        String[] thIn1 = thIn.split(":"); // splitting Time in input and storing it in an array
+        int thInh = Integer.parseInt(thIn1[0]);
+        int thInm = Integer.parseInt(thIn1[1]);
+        String[] thOut1 = thOut.split(":");
+        int thOuth = Integer.parseInt(thOut1[0]);
+        int thOutm = Integer.parseInt(thOut1[1]);
+        
+        LocalTime fthIn, fthOut; // String converted to int to use Local time to use Duration for twh calculation
+        fthIn = LocalTime.of(thInh, thInm);
+        fthOut = LocalTime.of(thOuth, thOutm);
+        
+        // Lates Calculation---------------------
+        
+        LocalTime[] roundfthIn = new LocalTime[1];
+        
+        if(fthIn.isAfter(truetin) && fthIn.isBefore(graceP1)){
+            fthIn = LocalTime.of(8, 00);
+            System.out.print("");
+                        
+        }else
+        if (fthIn.isAfter(graceP)) {
+            Duration late = Duration.between(graceP, fthIn); // CALCULATION OF LATES
+            var lmin = late.toMinutes();
+            System.out.println("Late by " + lmin + " minutes");
+            
+            for (int a = 0; a < 1; a++) {
+                System.out.print("");
+                LocalTime thtIn = fthIn;
+                roundfthIn[a] = thtIn;
+
+                System.out.println("");
+            }
+            }else{
+            System.out.print("");
+        }
+        
+        Duration thDur = Duration.between(fthIn, fthOut); // duration between time In and time out
+        var thMin = thDur.toMinutes(); // converting duration to  Minutes 
+        var fthMin = thMin-60; // -60 for 1 hour break
+        var thhh = Math.abs(fthMin/60); // dividing by 60 to get abs hours
+        var thmm = fthMin%60; // to get remainder mins
+        
+        // OVERTIME PAY----------------------
+        
+        int[] thotpay = new int[1];
+        
+        if (fthOut.isAfter(otStart)) {
+            Duration thot = Duration.between(otStart, fthOut); // CALCULATION OF LATES
+            var fthot = thot.toHours();
+            System.out.println("Overtime by " + fthot + " Hours");
+            
+            for (int m1 = 0; m1 < 1; m1++) {
+                System.out.print("");
+                int fthotpay = Math.toIntExact(fthot);
+                thotpay[m1] = fthotpay;
+
+                System.out.print("");
+            }
+            }else{
+            System.out.print("");
+        }
+        
+        var fthur = Math.abs(thhh)+"."+Math.abs(thmm);
+        
+        System.out.println("Total work hours: "+ fthur);
+        
+        System.out.println("\nF R I D A Y");
+        System.out.print("TIME IN: ");
+        String frIn = scan.next();
+        System.out.print("TIME OUT: ");
+        String frOut = scan.next();
+        
+        String[] frIn1 = frIn.split(":"); // splitting Time in input and storing it in an array
+        int frInh = Integer.parseInt(frIn1[0]);
+        int frInm = Integer.parseInt(frIn1[1]);
+        String[] frOut1 = frOut.split(":");
+        int frOuth = Integer.parseInt(frOut1[0]);
+        int frOutm = Integer.parseInt(frOut1[1]);
+        
+        LocalTime ffrIn, ffrOut; // String converted to int to use Local time to use Duration for twh calculation
+        ffrIn = LocalTime.of(frInh, frInm);
+        ffrOut = LocalTime.of(frOuth, frOutm);
+        
+        // Lates Calculation---------------------
+        
+        LocalTime[] roundffrIn = new LocalTime[1];
+        
+        if(ffrIn.isAfter(truetin) && ffrIn.isBefore(graceP1)){
+            ffrIn = LocalTime.of(8, 00);
+            System.out.print("");
+                        
+        }else
+        if (ffrIn.isAfter(graceP)) {
+            Duration late = Duration.between(graceP, ffrIn); // CALCULATION OF LATES
+            var lmin = late.toMinutes();
+            System.out.println("Late by " + lmin + " minutes");
+            
+            for (int a = 0; a < 1; a++) {
+                System.out.print("");
+                LocalTime frtIn = ffrIn;
+                roundfthIn[a] = frtIn;
+
+                System.out.println("");
+            }
+            }else{
+            System.out.print("");
+        }
+        
+        Duration frDur = Duration.between(ffrIn, ffrOut); // duration between time In and time out
+        var frMin = frDur.toMinutes(); // converting duration to  Minutes 
+        var ffrMin = frMin-60; // -60 for 1 hour break
+        var frhh = Math.abs(ffrMin/60); // dividing by 60 to get abs hours
+        var frmm = ffrMin%60; // to get remainder mins
+        
+        // OVERTIME PAY----------------------
+        
+        int[] frotpay = new int[1];
+        
+        if (ffrOut.isAfter(otStart)) {
+            Duration frot = Duration.between(otStart, ffrOut); // CALCULATION OF LATES
+            var ffrot = frot.toHours();
+            System.out.println("Overtime by " + ffrot + " Hours");
+            
+            for (int m1 = 0; m1 < 1; m1++) {
+                System.out.print("");
+                int ffrotpay = Math.toIntExact(ffrot);
+                frotpay[m1] = ffrotpay;
+
+                System.out.print("");
+            }
+            }else{
+            System.out.print("");
+        }
+        
+        var ffri = Math.abs(frhh)+"."+Math.abs(frmm);
+        
+        System.out.println("Total work hours: "+ ffri);
+        
+        var week1Min = mhh+thh+whh+thhh+frhh; // total work hours 
+        var week1Day = week1Min/24;
+        var week1Day3 = week1Min%24; 
+        
+        var w1oth = motpay[0]+totpay[0]+wotpay[0]+thotpay[0]+frotpay[0];
+        var w1finalpay = week1Min;
+        var w1finalpay1 = week1Min-w1oth;
+        
+        System.out.println("\nWeek 1 Total Work Hours: "+w1finalpay);        
+        
+        // date & time report (week2)
+        
+        System.out.println("\n-----W E E K 2-----");
+        
+        System.out.println("\nM O N D A Y");
+        System.out.print("TIME IN: ");
+        String w2mIn = scan.next();
+        System.out.print("TIME OUT: ");
+        String w2mOut = scan.next();
+        
+        String[] w2mIn1 = w2mIn.split(":"); // splitting Time in input and storing it in an array
+        int w2mInh = Integer.parseInt(w2mIn1[0]);
+        int w2mInm = Integer.parseInt(w2mIn1[1]);
+        String[] w2mOut1 = w2mOut.split(":");
+        int w2mOuth = Integer.parseInt(w2mOut1[0]);
+        int w2mOutm = Integer.parseInt(w2mOut1[1]);
+        
+        LocalTime w2fmIn, w2fmOut; // String converted to int to use Local time to use Duration for twh calculation
+        w2fmIn = LocalTime.of(w2mInh, w2mInm);
+        w2fmOut = LocalTime.of(w2mOuth, w2mOutm);
+        
+        // Lates Calculation---------------------
+        
+        LocalTime[] roundfw2mIn = new LocalTime[1];
+        
+        if(w2fmIn.isAfter(truetin) && w2fmIn.isBefore(graceP1)){
+            w2fmIn = LocalTime.of(8, 00);
+            System.out.print("");
+                        
+        }else
+        if (w2fmIn.isAfter(graceP)) {
+            Duration late = Duration.between(graceP, w2fmIn); // CALCULATION OF LATES
+            var lmin = late.toMinutes();
+            System.out.println("Late by " + lmin + " minutes");
+            
+            for (int a = 0; a < 1; a++) {
+                System.out.print("");
+                LocalTime w2mtIn = w2fmIn;
+                roundfthIn[a] = w2mtIn;
+
+                System.out.println("");
+            }
+            }else{
+            System.out.print("");
+        }
+        
+        Duration w2mDur = Duration.between(w2fmIn, w2fmOut); // duration between time In and time out
+        var w2mMin = w2mDur.toMinutes(); // converting duration to  Minutes 
+        var w2fmMin = w2mMin-60; // -60 for 1 hour break
+        var w2mhh = Math.abs(w2fmMin/60); // dividing by 60 to get abs hours
+        var w2mmm = w2fmMin%60; // to get remainder mins
+        
+        // OVERTIME PAY----------------------
+        
+        int[] w2motpay = new int[1];
+        
+        if (w2fmOut.isAfter(otStart)) {
+            Duration w2mot = Duration.between(otStart, w2fmOut); // CALCULATION OF LATES
+            var w2fmot = w2mot.toHours();
+            System.out.println("Overtime by " + w2fmot + " Hours");
+            
+            for (int m1 = 0; m1 < 1; m1++) {
+                System.out.print("");
+                int w2fmotpay = Math.toIntExact(w2fmot);
+                w2motpay[m1] = w2fmotpay;
+
+                System.out.print("");
+            }
+            }else{
+            System.out.print("");
+        }
+        
+        var w2fmon = Math.abs(w2mhh)+"."+Math.abs(w2mmm);
+        
+        System.out.println("Total work hours: "+ w2fmon);
+        
+        System.out.println("\nT U E S D A Y");
+        System.out.print("TIME IN: ");
+        String w2tIn = scan.next();
+        System.out.print("TIME OUT: ");
+        String w2tOut = scan.next();
+        
+        String[] w2tIn1 = w2tIn.split(":"); // splitting Time in input and storing it in an array
+        int w2tInh = Integer.parseInt(w2tIn1[0]);
+        int w2tInm = Integer.parseInt(w2tIn1[1]);
+        String[] w2tOut1 = w2tOut.split(":");
+        int w2tOuth = Integer.parseInt(w2tOut1[0]);
+        int w2tOutm = Integer.parseInt(w2tOut1[1]);
+        
+        LocalTime w2ftIn, w2ftOut; // String converted to int to use Local time to use Duration for twh calculation
+        w2ftIn = LocalTime.of(w2tInh, w2tInm);
+        w2ftOut = LocalTime.of(w2tOuth, w2tOutm);
+        
+        // Lates Calculation---------------------
+        
+        LocalTime[] roundfw2tIn = new LocalTime[1];
+        
+        if(w2ftIn.isAfter(truetin) && w2ftIn.isBefore(graceP1)){
+            w2ftIn = LocalTime.of(8, 00);
+            System.out.print("");
+                        
+        }else
+        if (w2ftIn.isAfter(graceP)) {
+            Duration late = Duration.between(graceP, w2ftIn); // CALCULATION OF LATES
+            var lmin = late.toMinutes();
+            System.out.println("Late by " + lmin + " minutes");
+            
+            for (int a = 0; a < 1; a++) {
+                System.out.print("");
+                LocalTime w2ttIn = w2ftIn;
+                roundfthIn[a] = w2ttIn;
+
+                System.out.println("");
+            }
+            }else{
+            System.out.print("");
+        }
+        
+        Duration w2tDur = Duration.between(w2ftIn, w2ftOut); // duration between time In and time out
+        var w2tMin = w2tDur.toMinutes(); // converting duration to  Minutes 
+        var w2ftMin = w2tMin-60; // -60 for 1 hour break
+        var w2thh = Math.abs(w2ftMin/60); // dividing by 60 to get abs hours
+        var w2tmm = w2ftMin%60; // to get remainder mins
+        
+        // OVERTIME PAY----------------------
+        
+        int[] w2totpay = new int[1];
+        
+        if (w2ftOut.isAfter(otStart)) {
+            Duration w2tot = Duration.between(otStart, w2ftOut); // CALCULATION OF LATES
+            var w2ftot = w2tot.toHours();
+            System.out.println("Overtime by " + w2ftot + " Hours");
+            
+            for (int m1 = 0; m1 < 1; m1++) {
+                System.out.print("");
+                int w2ftotpay = Math.toIntExact(w2ftot);
+                w2totpay[m1] = w2ftotpay;
+
+                System.out.print("");
+            }
+            }else{
+            System.out.print("");
+        }
+        
+        var w2ftue = Math.abs(w2thh)+"."+Math.abs(w2tmm);
+        
+        System.out.println("Total work hours: "+ w2ftue);
+        
+        
+        System.out.println("\nW E D N E S D A Y");
+        System.out.print("TIME IN: ");
+        String w2wIn = scan.next();
+        System.out.print("TIME OUT: ");
+        String w2wOut = scan.next();
+        
+        String[] w2wIn1 = w2wIn.split(":"); // splitting Time in input and storing it in an array
+        int w2wInh = Integer.parseInt(w2wIn1[0]);
+        int w2wInm = Integer.parseInt(w2wIn1[1]);
+        String[] w2wOut1 = w2wOut.split(":");
+        int w2wOuth = Integer.parseInt(w2wOut1[0]);
+        int w2wOutm = Integer.parseInt(w2wOut1[1]);
+        
+        LocalTime w2fwIn, w2fwOut; // String converted to int to use Local time to use Duration for twh calculation
+        w2fwIn = LocalTime.of(w2wInh, w2wInm);
+        w2fwOut = LocalTime.of(w2wOuth, w2wOutm);
+        
+        // Lates Calculation---------------------
+        
+        LocalTime[] roundfw2wIn = new LocalTime[1];
+        
+        if(w2fwIn.isAfter(truetin) && w2fwIn.isBefore(graceP1)){
+            w2fwIn = LocalTime.of(8, 00);
+            System.out.print("");
+                        
+        }else
+        if (w2fwIn.isAfter(graceP)) {
+            Duration late = Duration.between(graceP, w2fwIn); // CALCULATION OF LATES
+            var lmin = late.toMinutes();
+            System.out.println("Late by " + lmin + " minutes");
+            
+            for (int a = 0; a < 1; a++) {
+                System.out.print("");
+                LocalTime w2twIn = w2fwIn;
+                roundfthIn[a] = w2twIn;
+
+                System.out.println("");
+            }
+            }else{
+            System.out.print("");
+        }
+        
+        Duration w2wDur = Duration.between(w2fwIn, w2fwOut); // duration between time In and time out
+        var w2wMin = w2wDur.toMinutes(); // converting duration to  Minutes 
+        var w2fwMin = w2wMin-60; // -60 for 1 hour break
+        var w2whh = Math.abs(w2fwMin/60); // dividing by 60 to get abs hours
+        var w2wmm = w2fwMin%60; // to get remainder mins
+        
+        // OVERTIME PAY----------------------
+        
+        int[] w2wotpay = new int[1];
+        
+        if (w2fwOut.isAfter(otStart)) {
+            Duration w2wot = Duration.between(otStart, w2fwOut); // CALCULATION OF LATES
+            var w2fwot = w2wot.toHours();
+            System.out.println("Overtime by " + w2fwot + " Hours");
+            
+            for (int m1 = 0; m1 < 1; m1++) {
+                System.out.print("");
+                int w2fwotpay = Math.toIntExact(w2fwot);
+                w2wotpay[m1] = w2fwotpay;
+
+                System.out.print("");
+            }
+            }else{
+            System.out.print("");
+        }
+        
+        var w2fwed = Math.abs(w2whh)+"."+Math.abs(w2wmm);
+        
+        System.out.println("Total work hours: "+ w2fwed);
+
+        System.out.println("\nT H U R S D A Y");
+        System.out.print("TIME IN: ");
+        String w2thIn = scan.next();
+        System.out.print("TIME OUT: ");
+        String w2thOut = scan.next();
+        
+        String[] w2thIn1 = w2thIn.split(":"); // splitting Time in input and storing it in an array
+        int w2thInh = Integer.parseInt(w2thIn1[0]);
+        int w2thInm = Integer.parseInt(w2thIn1[1]);
+        String[] w2thOut1 = thOut.split(":");
+        int w2thOuth = Integer.parseInt(w2thOut1[0]);
+        int w2thOutm = Integer.parseInt(w2thOut1[1]);
+        
+        LocalTime w2fthIn, w2fthOut; // String converted to int to use Local time to use Duration for twh calculation
+        w2fthIn = LocalTime.of(w2thInh, w2thInm);
+        w2fthOut = LocalTime.of(w2thOuth, w2thOutm);
+        
+        // Lates Calculation---------------------
+        
+        LocalTime[] roundfw2thIn = new LocalTime[1];
+        
+        if(w2fthIn.isAfter(truetin) && w2fthIn.isBefore(graceP1)){
+            w2fthIn = LocalTime.of(8, 00);
+            System.out.print("");
+                        
+        }else
+        if (w2fthIn.isAfter(graceP)) {
+            Duration late = Duration.between(graceP, w2fthIn); // CALCULATION OF LATES
+            var lmin = late.toMinutes();
+            System.out.println("Late by " + lmin + " minutes");
+            
+            for (int a = 0; a < 1; a++) {
+                System.out.print("");
+                LocalTime w2tthIn = w2fthIn;
+                roundfthIn[a] = w2tthIn;
+
+                System.out.print("");
+            }
+            }else{
+            System.out.print("");
+        }
+        
+        Duration w2thDur = Duration.between(w2fthIn, w2fthOut); // duration between time In and time out
+        var w2thMin = w2thDur.toMinutes(); // converting duration to  Minutes 
+        var w2fthMin = w2thMin-60; // -60 for 1 hour break
+        var w2thhh = Math.abs(w2fthMin/60); // dividing by 60 to get abs hours
+        var w2thmm = w2fthMin%60; // to get remainder mins
+        
+        // OVERTIME PAY----------------------
+        
+        int[] w2thotpay = new int[1];
+        
+        if (w2fthOut.isAfter(otStart)) {
+            Duration w2thot = Duration.between(otStart, w2fthOut); // CALCULATION OF LATES
+            var w2fthot = w2thot.toHours();
+            System.out.println("Overtime by " + w2fthot + " Hours");
+            
+            for (int m1 = 0; m1 < 1; m1++) {
+                System.out.print("");
+                int w2fthotpay = Math.toIntExact(w2fthot);
+                w2thotpay[m1] = w2fthotpay;
+
+                System.out.print("");
+            }
+            }else{
+            System.out.print("");
+        }
+        
+        var w2fthur = Math.abs(w2thhh)+"."+Math.abs(w2thmm);
+        
+        System.out.println("Total work hours: "+ w2fthur);
+        
+        System.out.println("\nF R I D A Y");
+        System.out.print("TIME IN: ");
+        String w2frIn = scan.next();
+        System.out.print("TIME OUT: ");
+        String w2frOut = scan.next();
+        
+        String[] w2frIn1 = w2frIn.split(":"); // splitting Time in input and storing it in an array
+        int w2frInh = Integer.parseInt(w2frIn1[0]);
+        int w2frInm = Integer.parseInt(w2frIn1[1]);
+        String[] w2frOut1 = w2frOut.split(":");
+        int w2frOuth = Integer.parseInt(w2frOut1[0]);
+        int w2frOutm = Integer.parseInt(w2frOut1[1]);
+        
+        LocalTime w2ffrIn, w2ffrOut; // String converted to int to use Local time to use Duration for twh calculation
+        w2ffrIn = LocalTime.of(w2frInh, w2frInm);
+        w2ffrOut = LocalTime.of(w2frOuth, w2frOutm);
+        
+        // Lates Calculation---------------------
+        
+        LocalTime[] roundfw2frIn = new LocalTime[1];
+        
+        if(w2ffrIn.isAfter(truetin) && w2ffrIn.isBefore(graceP1)){
+            w2ffrIn = LocalTime.of(8, 00);
+            System.out.print("");
+                        
+        }else
+        if (w2ffrIn.isAfter(graceP)) {
+            Duration late = Duration.between(graceP, w2ffrIn); // CALCULATION OF LATES
+            var lmin = late.toMinutes();
+            System.out.println("Late by " + lmin + " minutes");
+            
+            for (int a = 0; a < 1; a++) {
+                System.out.print("");
+                LocalTime w2tfrIn = w2ffrIn;
+                roundfthIn[a] = w2tfrIn;
+
+                System.out.println("");
+            }
+            }else{
+            System.out.print("");
+        }
+        
+        Duration w2frDur = Duration.between(w2ffrIn, w2ffrOut); // duration between time In and time out
+        var w2frMin = w2frDur.toMinutes(); // converting duration to  Minutes 
+        var w2ffrMin = w2frMin-60; // -60 for 1 hour break
+        var w2frhh = Math.abs(w2ffrMin/60); // dividing by 60 to get abs hours
+        var w2frmm = w2ffrMin%60; // to get remainder mins
+        
+        // OVERTIME PAY----------------------
+        
+        int[] w2frotpay = new int[1];
+        
+        if (w2ffrOut.isAfter(otStart)) {
+            Duration w2frot = Duration.between(otStart, w2ffrOut); // CALCULATION OF LATES
+            var w2ffrot = w2frot.toHours();
+            System.out.println("Overtime by " + w2ffrot + " Hours");
+            
+            for (int m1 = 0; m1 < 1; m1++) {
+                System.out.print("");
+                int w2ffrotpay = Math.toIntExact(w2ffrot);
+                w2frotpay[m1] = w2ffrotpay;
+
+                System.out.print("");
+            }
+            }else{
+            System.out.print("");
+        }
+        
+        var w2ffri = Math.abs(w2frhh)+"."+Math.abs(w2frmm);
+        
+        System.out.println("Total work hours: "+ w2ffri);
+        
+        var week2Min = (w2mhh+w2thh+w2whh+w2thhh+w2frhh); // total work hours 
+        var week2Day = week2Min/24;
+        var week2Day3 = week2Min%24; 
+        
+        var w2oth = w2motpay[0]+w2totpay[0]+w2wotpay[0]+w2thotpay[0]+w2frotpay[0];
+        var w2finalpay = week2Min;
+        var w2finalpay1 = week2Min-w2oth;
+        
+        System.out.println("Week 2 Total Work Hours: "+w2finalpay);  
+        
+        
+
+        String mark =("\n----------------------------------------");
+        
+        if (i.equals("0")){
+            System.out.println(mark);
+            System.out.println("\nINVALID CREDENTIALS!\n");
+            System.out.println(mark);
+        }else {
+            System.out.println(" ");  
+        }
+        
+        // SALARY COMPUTATION
+        
+        // Monthly rate
+        var basicsalary = basic[eNum];
+        
+        //Hourly Rate
+        var hourlyrate = hr[eNum];
+        
+        // Daily rate
+        var dr = hr[eNum]*8;
+        
+        //Days worked:
+        
+        double wSal = hr[eNum]*(w2finalpay1+w1finalpay1)-(w2oth+w1oth); // 1 week salary computation
+        
+        
+        //overtime:
+        
+        
+        
+        System.out.println("\n----------D E D U C T I O N S ----------\n");
+        
+        // SSS CALCULATION --------------------------------------------------------------------------------------------------------
+        {
+        double[] sssCont = {0,135,157.5,180,202.5,225,247.5,270,292.5,315,337.5,360,382.5,405,
+427.5,450,472.5,495,517.5,540,562.5,585,607.5,630,652.5,675,697.5,720,742.5,765,787.5,810,832.5,855,877.5,900,922.5,945,967.5,990,1012.5,1035,1057.5,1080,1102.5,1125.00};
+        
+        double[] sRange = {0,3250,3750,4250,4750,5250,5750,6250,6750,7250,7750,8250,8750,9250,9750,10250,10750,11250,11750,12250,12750,13250,13750,14250,14750,15250,15750,16250,16750,17250,17750,18250,18750,19250,19750,20250,20750,21250,21750,22250,22750,23250,23750,24250,24750};
+        
+        double[] eRange = {0,3750,4250,4750,5250,5750,6250,6750,7250,7750,8250,8750,9250,9750,10250,10750,11250,11750,12250,12750,13250,13750,14250,14750,15250,15750,16250,16750,17250,17750,18250,18750,19250,19750,20250,20750,21250,21750,22250,22750,23250,23750,24250,24750};
+
+        
+        if (wSal <= 3250){
+            System.out.println("SSS: "+decfor.format((wSal+sssCont[1])-wSal));
+        }else 
+            if (wSal > sRange[1] && wSal <= eRange[1]){
+                System.out.println("SSS: "+decfor.format((wSal+sssCont[2])-wSal));
+        }else
+            if (wSal > sRange[2] && wSal <= eRange[2]){
+                System.out.println("SSS: "+decfor.format((wSal+sssCont[3])-wSal));
+        }else 
+            if (wSal > sRange[3] && wSal <= eRange[3]){
+                System.out.println("SSS: "+decfor.format((wSal+sssCont[4])-wSal));
+        }else 
+            if (wSal > sRange[4] && wSal <= eRange[4]){
+                System.out.println("SSS: "+decfor.format((wSal+sssCont[5])-wSal));        
+        }else 
+            if (wSal > sRange[5] && wSal <= eRange[5]){
+                System.out.println("SSS: "+decfor.format((wSal+sssCont[6])-wSal));
+        }else 
+            if (wSal > sRange[6] && wSal <= eRange[6]){
+                System.out.println("SSS: "+decfor.format((wSal+sssCont[7])-wSal));    
+        }else 
+            if (wSal > sRange[7] && wSal <= eRange[7]){
+                System.out.println("SSS: "+decfor.format((wSal+sssCont[8])-wSal));    
+        }else 
+            if (wSal > sRange[8] && wSal <= eRange[8]){
+                System.out.println("SSS: "+decfor.format((wSal+sssCont[9])-wSal));    
+        }else 
+            if (wSal > sRange[9] && wSal <= eRange[9]){
+                System.out.println("SSS: "+decfor.format((wSal+sssCont[10])-wSal));    
+        }else 
+            if (wSal > sRange[10] && wSal <= eRange[10]){
+                System.out.println("SSS: "+decfor.format((wSal+sssCont[11])-wSal));    
+        }else 
+            if (wSal > sRange[11] && wSal <= eRange[11]){
+                System.out.println("SSS: "+decfor.format((wSal+sssCont[12])-wSal));    
+        }else 
+            if (wSal > sRange[12] && wSal <= eRange[12]){
+                System.out.println("SSS: "+decfor.format((wSal+sssCont[13])-wSal));    
+        }else 
+            if (wSal > sRange[13] && wSal <= eRange[13]){
+                System.out.println("SSS: "+decfor.format((wSal+sssCont[14])-wSal));    
+        }else 
+            if (wSal > sRange[14] && wSal <= eRange[14]){
+                System.out.println("SSS: "+decfor.format((wSal+sssCont[15])-wSal));    
+        }else 
+            if (wSal > sRange[15] && wSal <= eRange[15]){
+                System.out.println("SSS: "+decfor.format((wSal+sssCont[16])-wSal));    
+        }else 
+            if (wSal > sRange[16] && wSal <= eRange[16]){
+                System.out.println("SSS: "+decfor.format((wSal+sssCont[17])-wSal));    
+        }else 
+            if (wSal > sRange[17] && wSal <= eRange[17]){
+                System.out.println("SSS: "+decfor.format((wSal+sssCont[18])-wSal));    
+        }else 
+            if (wSal > sRange[18] && wSal <= eRange[18]){
+                System.out.println("SSS: "+decfor.format((wSal+sssCont[19])-wSal));  
+        }else 
+            if (wSal > sRange[19] && wSal <= eRange[19]){
+                System.out.println("SSS: "+decfor.format((wSal+sssCont[20])-wSal));    
+        }else 
+            if (wSal > sRange[20] && wSal <= eRange[20]){
+                System.out.println("SSS: "+decfor.format((wSal+sssCont[21])-wSal));  
+        }else 
+            if (wSal > sRange[21] && wSal <= eRange[21]){
+                System.out.println("SSS: "+decfor.format((wSal+sssCont[22])-wSal));    
+        }else 
+            if (wSal > sRange[22]&& wSal <= eRange[22]){
+                System.out.println("SSS: "+decfor.format((wSal+sssCont[23])-wSal));    
+        }else 
+            if (wSal > sRange[23] && wSal <= eRange[23]){
+                System.out.println("SSS: "+decfor.format((wSal+sssCont[24])-wSal));    
+        }else 
+            if (wSal > sRange[24] && wSal <= eRange[24]){
+                System.out.println("SSS: "+decfor.format((wSal+sssCont[25])-wSal));    
+        }else 
+            if (wSal > sRange[25] && wSal <= eRange[25]){
+                System.out.println("SSS: "+decfor.format((wSal+sssCont[26])-wSal));    
+        }else 
+            if (wSal > sRange[26] && wSal <= eRange[26]){
+                System.out.println("SSS: "+decfor.format((wSal+sssCont[27])-wSal));    
+        }else 
+            if (wSal > sRange[27] && wSal <= eRange[27]){
+                System.out.println("SSS: "+decfor.format((wSal+sssCont[28])-wSal));    
+        }else 
+            if (wSal > sRange[28] && wSal <= eRange[28]){
+                System.out.println("SSS: "+decfor.format((wSal+sssCont[29])-wSal));    
+        }else 
+            if (wSal > sRange[29]&& wSal <= eRange[29]){
+                System.out.println("SSS: "+decfor.format((wSal+sssCont[30])-wSal));    
+        }else 
+            if (wSal > sRange[30]&& wSal <= eRange[30]){
+                System.out.println("SSS: "+decfor.format((wSal+sssCont[31])-wSal));    
+        }else 
+            if (wSal > sRange[31]&& wSal <= eRange[31]){
+                System.out.println("SSS: "+decfor.format((wSal+sssCont[32])-wSal));    
+        }else 
+            if (wSal > sRange[32] && wSal <= eRange[32]){
+                System.out.println("SSS: "+decfor.format((wSal+sssCont[33])-wSal));    
+        }else 
+            if (wSal > sRange[33]&& wSal <= eRange[33]){
+                System.out.println("SSS: "+decfor.format((wSal+sssCont[34])-wSal));    
+        }else 
+            if (wSal > sRange[34] && wSal <= eRange[34]){
+                System.out.println("SSS: "+decfor.format((wSal+sssCont[35])-wSal));    
+        }else 
+            if (wSal > sRange[35] && wSal <= eRange[35]){
+                System.out.println("SSS: "+decfor.format((wSal+sssCont[36])-wSal));    
+        }else 
+            if (wSal > sRange[36] && wSal <= eRange[36]){
+                System.out.println("SSS: "+decfor.format((wSal+sssCont[37])-wSal));    
+        }else 
+            if (wSal > sRange[37] && wSal <= eRange[37]){
+                System.out.println("SSS: "+decfor.format((wSal+sssCont[38])-wSal));    
+        }else 
+            if (wSal > sRange[38] && wSal <= eRange[38]){
+                System.out.println("SSS: "+decfor.format((wSal+sssCont[39])-wSal));     
+        }else 
+            if (wSal > sRange[39] && wSal <= eRange[39]){
+                System.out.println("SSS: "+decfor.format((wSal+sssCont[40])-wSal));     
+        }else 
+            if (wSal > sRange[40] && wSal <= eRange[40]){
+                System.out.println("SSS: "+decfor.format((wSal+sssCont[41])-wSal));     
+        }else 
+            if (wSal > sRange[41] && wSal <= eRange[41]){
+                System.out.println("SSS: "+decfor.format((wSal+sssCont[42])-wSal));     
+        }else 
+            if (wSal > sRange[42] && wSal <= eRange[42]){
+                System.out.println("SSS: "+decfor.format((wSal+sssCont[43])-wSal));     
+        }else 
+            if (wSal > sRange[43] && wSal <= eRange[43]){
+                System.out.println("SSS: "+decfor.format((wSal+sssCont[44])-wSal));     
+        }else 
+            if (wSal > sRange[44]){
+                System.out.println("SSS: "+decfor.format((wSal+sssCont[45])-wSal)); 
+        }else {    
+            System.out.println("0");}
+        }
+        
+        System.out.print("Enter SSS Contribution to deduct: ");
+        var fsss = scan.nextDouble();
+        System.out.println("");
+        
+        
+        
+        // PhiHealth CALCULATION ---------------------------------------------------------------------
+        {
+        double[] mBS = {10000,60000};
+        
+        double percentage = 3;
+        double phR = (percentage/100*wSal)/2;
+        
+        if (wSal >= mBS[0]){
+            System.out.println("PhilHealth: "+decfor.format((percentage/100*wSal)/2));
+        }else
+        if (wSal < mBS[0] && wSal > mBS[1]){
+            System.out.println("PhilHealth: "+decfor.format((percentage/100*wSal)/2));
+        }else
+        if (wSal <= mBS[1]){
+            System.out.println("PhilHealth: "+decfor.format((percentage/100*wSal)/2));
+        }else
+        System.out.println("PhilHealth: 0");}
+        
+        System.out.print("Enter PhilHealth Contribution to deduct: ");
+        var fph = scan.nextDouble();
+        System.out.println("");
+        
+        {
+        // PAGIBIG CALCULATION --------------------------------------------------------------------------------
+        double percentage2 = 3.0/100.0;
+        double percentage1 = 4.0/100.0;
+
+        if (wSal >= 1000 && wSal <= 1500 ){
+            double xxy = (percentage2*wSal);
+            System.out.println("Pag-Ibig: "+decfor.format(xxy/3));
+        }else 
+            if (wSal > 1500 ){
+                double xxy = (percentage1*wSal);
+                System.out.println("Pag-Ibig: "+decfor.format(xxy/2));}
+        }
+        
+        System.out.print("Enter Pag-Ibig Contribution to deduct: ");
+        var fpb= scan.nextDouble();
+        System.out.println("");
+        
+        //Salary and deductions computation -----------------------------------------------------------------
+           
+        
+        {
+        var tax1 = (((wSal-fsss)-fph)-fpb);
+        double[] taxes = {20832,33333,66667,166667,666667};
+    
+        if (wSal <= taxes[0]){
+            System.out.println("Withholding tax: 0");
+        }else
+        if (wSal >= taxes[0] && wSal < taxes[1]){
+            System.out.println("Withholding tax: "+decfor.format((tax1-taxes[0])*(20/100.0)));
+        }else
+        if (wSal >= taxes[1] && wSal < taxes[2]){
+            System.out.println("Withholding tax: "+decfor.format(((tax1-taxes[1])-2500)*(25/100.0)));
+        }else
+        if (wSal >= taxes[2] && wSal < taxes[3]){
+            System.out.println("Withholding tax: "+decfor.format(((tax1-taxes[2])-10833)*(30/100.0)));
+        }else
+            if (wSal >= taxes[3] && wSal < taxes[4]){
+              System.out.println("Withholding tax: "+decfor.format(((tax1-taxes[2])-40833.33)*(32/100.0)));  
+            }else
+                if (wSal > taxes[4]){
+                    System.out.println("Withholding tax: "+decfor.format(((tax1-taxes[2])-200833.33)*(35/100.0))); 
+                }else{
+                    System.out.println("Withholding tax: 0");}
+        }
+        
+        System.out.print("Enter total tax to deduct: ");
+        var ftax= scan.nextDouble();
+        System.out.println("");
+        
+        
+        System.out.println("-------------E A R N I N G S------------\n");
+        
+        // Monthly rate
+        System.out.println("Basic Salary: "+basicsalary);
+        
+        //Hourly Rate
+        System.out.println("Hourly: "+hourlyrate);
+        
+        
+        // System.out.println("\nTotal Hours Worked: "+((w2finalpay1+w1finalpay1)-(w2oth+w1oth)));
+        System.out.println("Bi-Weekly Pay: "+wSal);
+        
+        //overtime:
+        
+        
+        var foth = w1oth+w2oth;
+        var calotpay = hr[eNum]*1.25;
+        var finalotpay = foth*calotpay;
+        System.out.println("\nOVERTIME:");
+        System.out.println("Total Hours Worked: "+Math.abs(foth));
+        
+        var totalrate = decfor.format(wSal+finalotpay);
+        System.out.println("Total overtime pay: "+decfor.format(finalotpay));
+        
+        System.out.println("\nGROSS INCOME: "+totalrate);
+        
+        
+        System.out.println("\n-------------B E N E F I T S------------\n");
+        System.out.println("Rice Subsidy: "+rice);
+        System.out.println("Phone Allowance: "+phone[eNum]);
+        System.out.println("Clothing Allowance: "+cloth[eNum]);
+        var tbene = (rice+phone[eNum]+cloth[eNum]);
+        System.out.println("\nTOTAL BENEFITS: "+tbene);
+        
+        System.out.println("\n----------D E D U C T I O N S-----------\n");
+        System.out.println("SSS: "+decfor.format(fsss/2));
+        System.out.println("PhilHealth: "+decfor.format(fph/2));
+        System.out.println("Pag-ibig: "+decfor.format(fpb/2));
+        System.out.println("Withholding tax: "+decfor.format(ftax/2));
+        var tdeduct = ((fsss+fph+fpb)/2)+ftax;
+        System.out.println("\nTOTAL DEDUCTIONS: "+decfor.format(tdeduct));
+        
+        System.out.println("\n-------------S U M M A R Y--------------\n");
+        System.out.println("Gross Income: "+totalrate);
+        System.out.println("Total: "+tbene);
+        System.out.println("Total Deductions: "+decfor.format(tdeduct));
+        var tsum = ((wSal+tbene)-tdeduct);
+        System.out.println("\nTAKE HOME PAY: "+decfor.format(tsum));
+        
+        
+    }
+}
+    
+    
