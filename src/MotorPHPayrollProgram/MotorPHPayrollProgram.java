@@ -57,6 +57,11 @@ public class MotorPHPayrollProgram {
 
     
     public static void main(String[] args) {     
+        runPayrollProgram();
+    }
+    
+    
+    public static void runPayrollProgram() {
         // Call methods
         MotorPHPayrollProgram[] employees = initializeEmployees();
         int employeeNumber = employeeDetailsPresentation(employees);
@@ -87,7 +92,9 @@ public class MotorPHPayrollProgram {
             System.out.println("Thanks! Have a good day!");
         } else {
             System.out.println("Invalid input.");
-        }  
+        }
+        
+        calculateAnotherSalary();
     }
     
     
@@ -613,6 +620,27 @@ public class MotorPHPayrollProgram {
         System.out.printf("========================================================================================================================");
         System.out.println();
         System.out.println();
-        System.out.println();
     }
+    
+    
+    public static void calculateAnotherSalary() {
+        // Ask user if they want to calculate another employee
+        System.out.print("\nDo you want to enter another employee?         ");
+        String yesOrNo = scan.nextLine();
+        
+        // Make the input case insensitive
+        String userInput = yesOrNo.toLowerCase();
+        
+        // Make the input spelling insensitive
+        if (userInput.contains("y")) {
+            System.out.println();
+            System.out.println();
+            runPayrollProgram();
+        } else if (userInput.contains("n")) {
+            System.out.println("Thanks! Have a good day!");
+        } else {
+            System.out.println("Invalid input.");
+        }  
+    }
+    
 }
