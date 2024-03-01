@@ -5,6 +5,8 @@ package MotorPHPayrollProgram;
 import java.time.Duration;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 
@@ -56,8 +58,19 @@ public class MotorPHPayrollProgram {
     }
 
     
-    public static void main(String[] args) {     
-        runPayrollProgram();
+    public static void main(String[] args) {
+        try {
+            runPayrollProgram();
+        } catch (InputMismatchException e) {
+            System.out.println();
+            System.out.println("ERROR: Please enter an integer.");
+        } catch (DateTimeParseException e) {
+            System.out.println();
+            System.out.println("ERROR: Please enter a valid time in HH:mm format.");
+        } catch (Exception e) {
+            System.out.println();
+            System.out.println("ERROR: Something went wrong.");
+        }
     }
     
     
@@ -89,9 +102,12 @@ public class MotorPHPayrollProgram {
         if (userInput.contains("y")) {
             generatePayslip(employees, employeeNumber, dates[0], dates[1], daysAndHoursWorked[0], daysAndHoursWorked[1], daysAndHoursWorked[2], overtimePay, grossIncome, totalBenefits, sssMonthlyContribution, philHealthContribution[0], philHealthContribution[1], pagIbigMonthlyContribution, totalMonthlyContribution, taxableIncome, taxAndNetIncome[0], taxAndNetIncome[1], totalDeductions);
         } else if (userInput.contains("n")) {
+            System.out.println();
             System.out.println("Thanks! Have a good day!");
         } else {
-            System.out.println("Invalid input.");
+            System.out.println();
+            System.out.println("ERROR: Please type yes or no.");
+            System.exit(0);
         }
         
         calculateAnotherSalary();
@@ -183,8 +199,8 @@ public class MotorPHPayrollProgram {
             employees[employeeNumber - 1].displayEmployeeInformation();
             return employeeNumber;
         } else {
-            System.out.printf("%-47s", "Employee not found.");
             System.out.println();
+            System.out.println("ERROR: Employee not found. Please enter a valid employee number between 1 and 34.");
             System.exit(0);
             return 0;
         }
@@ -265,9 +281,9 @@ public class MotorPHPayrollProgram {
             }
 
             // Print regular and overtime hours for the day
-            System.out.printf("%-8s%-39s%-10s", "", "REGULAR HOURS WORKED: ", regularHours.toHoursPart() + " hours");
+            System.out.printf("%-8s%-39s%-10s", "", "Regular Hours Worked: ", regularHours.toHoursPart() + " hours");
             System.out.println();
-            System.out.printf("%-8s%-39s%-10s", "", "OVERTIME HOURS WORKED: ", overtimeHours.toHoursPart() + " hours");
+            System.out.printf("%-8s%-39s%-10s", "", "Overtime Hours Worked: ", overtimeHours.toHoursPart() + " hours");
             System.out.println();
 
             // Calculate total regular and overtime hours worked in the month
@@ -635,11 +651,19 @@ public class MotorPHPayrollProgram {
         if (userInput.contains("y")) {
             System.out.println();
             System.out.println();
+            
+            // Clear the console
+            for (int i = 0; i < 100; i++) {
+                System.out.println();
+            }
+              
             runPayrollProgram();
         } else if (userInput.contains("n")) {
             System.out.println("Thanks! Have a good day!");
         } else {
-            System.out.println("Invalid input.");
+            System.out.println();
+            System.out.println("ERROR: Please type yes or no.");
+            System.exit(0);
         }  
     }
     
