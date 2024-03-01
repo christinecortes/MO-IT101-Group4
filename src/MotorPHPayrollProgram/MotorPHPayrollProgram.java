@@ -66,6 +66,7 @@ public class MotorPHPayrollProgram {
     public static void runPayrollProgram() {
         // Call methods
         MotorPHPayrollProgram[] employees = initializeEmployees();
+        employeeList();
         int employeeNumber = employeeDetailsPresentation(employees);
         String[] dates = workPeriod();
         int[] daysAndHoursWorked = monthlyHoursWorkedCalculation();
@@ -115,7 +116,7 @@ public class MotorPHPayrollProgram {
     
     public void displayEmployeeInformation() {
         // Create title
-        System.out.println("\nEMPLOYEE DETAILS");
+        System.out.println("\n\nEMPLOYEE DETAILS");
         
         // Print employee details
         System.out.println(
@@ -184,6 +185,47 @@ public class MotorPHPayrollProgram {
         return employees;
     }
     
+    public static void employeeList() {
+        System.out.printf("========================================================================================================================");
+        System.out.println();
+        System.out.printf("%-60s%60s", "|", "|");
+        System.out.println();
+        System.out.printf("%-49s%-32s%39s", "|", "MOTORPH EMPLOYEE LIST", "|");
+        System.out.println();
+        System.out.printf("%-60s%60s", "|", "|");
+        System.out.println();
+        System.out.printf("|======================================================================================================================|");
+        System.out.println();
+        System.out.printf("%1s%-39s%1s%-39s%1s%-38s%1s", "|", "     1   -   Manuel Garcia III", "|", "     13  -   Martha Farala", "|", "     25  -   Jacklyn Tolentino", "|");
+        System.out.println();
+        System.out.printf("%1s%-39s%1s%-39s%1s%-38s%1s", "|", "     2   -   Antonio Lim", "|", "     14  -   Leila Martinez", "|", "     26  -   Percival Gutierrez", "|");
+        System.out.println();
+        System.out.printf("%1s%-39s%1s%-39s%1s%-38s%1s", "|", "     3   -   Bianca Sofia Aquino", "|", "     15  -   Fredrick Romualdez", "|", "     27  -   Garfield Manalaysay", "|");
+        System.out.println();
+        System.out.printf("%1s%-39s%1s%-39s%1s%-38s%1s", "|", "     4   -   Isabella Reyes", "|", "     16  -   Christian Mata", "|", "     28  -   Lizeth Villegas", "|");
+        System.out.println();
+        System.out.printf("%1s%-39s%1s%-39s%1s%-38s%1s", "|", "     5   -   Eduard Hernandez", "|", "     17  -   Selena De Leon", "|", "     29  -   Carol Ramos", "|");
+        System.out.println();
+        System.out.printf("%1s%-39s%1s%-39s%1s%-38s%1s", "|", "     6   -   Andrea Mae Villanueva", "|", "     18  -   Allison San Jose", "|", "     30  -   Emelia Maceda", "|");
+        System.out.println();
+        System.out.printf("%1s%-39s%1s%-39s%1s%-38s%1s", "|", "     7   -   Brad San Jose", "|", "     19  -   Cydney Rosario", "|", "     31  -   Delia Aguilar", "|");
+        System.out.println();
+        System.out.printf("%1s%-39s%1s%-39s%1s%-38s%1s", "|", "     8   -   Alice Romualdez", "|", "     20  -   Mark Bautista", "|", "     32  -   John Rafael Castro", "|");
+        System.out.println();
+        System.out.printf("%1s%-39s%1s%-39s%1s%-38s%1s", "|", "     9   -   Rosie Atienza", "|", "     21  -   Darlene Lazaro", "|", "     33  -   Carlos Ian Martinez", "|");
+        System.out.println();
+        System.out.printf("%1s%-39s%1s%-39s%1s%-38s%1s", "|", "     10  -   Roderick Alvaro", "|", "     22  -   Kolby Delos Santos  ", "|", "     34  -   Beatriz Santos", "|");
+        System.out.println();
+        System.out.printf("%1s%-39s%1s%-39s%1s%-38s%1s", "|", "     11  -   Anthony Salcedo", "|", "     23  -   Vella Santos", "|", "", "|");
+        System.out.println();
+        System.out.printf("%1s%-39s%1s%-39s%1s%-38s%1s", "|", "     12  -   Josie Lopez", "|", "     24  -   Tomas Del Rosario", "|", "", "|");
+        System.out.println();
+        System.out.printf("========================================================================================================================");
+        System.out.println();
+        System.out.println();
+        System.out.println();
+    }
+    
     
     public static int employeeDetailsPresentation(MotorPHPayrollProgram[] employees) {
         int employeeNumber;
@@ -204,13 +246,16 @@ public class MotorPHPayrollProgram {
                     return employeeNumber;
                 } else {
                     System.out.println("ERROR: Employee not found. Please enter a valid employee number between 1 and 34.");
+                    System.out.println();
                 }
             } catch (InputMismatchException e) {
                 System.out.println("ERROR: Please enter an integer.");
                 scan.nextLine(); // Consume invalid input
+                System.out.println();
             } catch (Exception e) {
                 System.out.println("ERROR: Something went wrong.");
                 scan.nextLine(); // Consume invalid input
+                System.out.println();
             }
         } while (true);
     }
@@ -218,7 +263,7 @@ public class MotorPHPayrollProgram {
 
     public static String[] workPeriod() {
         // Create title
-        System.out.println("\nMONTHLY WORK PERIOD (type in MM/DD/YYYY format)");
+        System.out.println("\n\nMONTHLY WORK PERIOD (type in MM/DD/YYYY format)");
         
         // Prompt user for work period dates
         System.out.printf("%-4s%-43s", "", "Start date: ");
@@ -240,7 +285,7 @@ public class MotorPHPayrollProgram {
         DateTimeFormatter formatTime = DateTimeFormatter.ofPattern("HH:mm");
         
         // Create title
-        System.out.println("\nHOURS WORKED CALCULATOR (input time in HH:mm format)");
+        System.out.println("\n\nHOURS WORKED CALCULATOR (input time in HH:mm format)");
         
         // Handle input validation
         do {
@@ -254,14 +299,17 @@ public class MotorPHPayrollProgram {
                 if (numberOfWorkDays >= 0 && numberOfWorkDays <= 20) {
                     break;
                 } else {
-                    System.out.println("ERROR: Please enter a number of work days between 0 and 20.");
+                    System.out.println("    ERROR: Please enter a number of work days between 0 and 20.");
+                    System.out.println();
                 }
             } catch (InputMismatchException e) {
-                System.out.println("ERROR: Please enter an integer.");
+                System.out.println("    ERROR: Please enter an integer.");
                 scan.nextLine(); // Consume invalid input
+                System.out.println();
             } catch (Exception e) {
-                System.out.println("ERROR: Something went wrong.");
+                System.out.println("    ERROR: Something went wrong.");
                 scan.nextLine(); // Consume invalid input
+                System.out.println();
             }
         } while (true);
         
@@ -276,6 +324,7 @@ public class MotorPHPayrollProgram {
             do {
                 try {
                     // Print the day number
+                    System.out.println();
                     System.out.printf("%-4s%-43s", "", "DAY " + (i + 1));
                     System.out.println();
             
@@ -293,9 +342,9 @@ public class MotorPHPayrollProgram {
                     // If parsing succeeds, break the loop
                     break;
                 } catch (DateTimeParseException e) {
-                    System.out.println("ERROR: Please enter a valid time in HH:mm format.");
+                    System.out.println("        ERROR: Please enter a valid time in HH:mm format.");
                 } catch (Exception e) {
-                    System.out.println("ERROR: Something went wrong.");
+                    System.out.println("        ERROR: Something went wrong.");
                 }
             } while (true);
 
@@ -339,6 +388,7 @@ public class MotorPHPayrollProgram {
         System.out.printf("%-4s%-43s%-20s", "", "TOTAL REGULAR HOURS WORKED IN A MONTH: ", totalRegularHoursWorkedInAMonth + " hours");
         System.out.println();
         System.out.printf("%-4s%-43s%-20s", "", "TOTAL OVERTIME HOURS WORKED IN A MONTH: ", totalOvertimeHoursWorkedInAMonth + " hours");
+        System.out.println();
         System.out.println();
 
         int[] daysAndHoursWorked = {numberOfWorkDays, totalRegularHoursWorkedInAMonth, totalOvertimeHoursWorkedInAMonth};
