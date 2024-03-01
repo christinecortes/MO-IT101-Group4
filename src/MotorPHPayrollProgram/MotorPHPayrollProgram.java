@@ -406,6 +406,12 @@ public class MotorPHPayrollProgram {
     
     public static double taxableIncomeCalculation(double grossIncome, double totalMonthlyContribution) {
         double taxableIncome = grossIncome - totalMonthlyContribution;
+        
+        // Prevent a negative value
+        if (taxableIncome < 0) {
+            taxableIncome = 0;
+        }
+        
         return taxableIncome;
     }
     
