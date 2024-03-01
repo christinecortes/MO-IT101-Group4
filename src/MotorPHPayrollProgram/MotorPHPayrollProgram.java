@@ -1,6 +1,6 @@
 package MotorPHPayrollProgram;
 
-// author CJ
+// author Christine
 
 import java.time.Duration;
 import java.time.LocalTime;
@@ -296,10 +296,10 @@ public class MotorPHPayrollProgram {
 
                 scan.nextLine(); // Consume excess line
 
-                if (numberOfWorkDays >= 0 && numberOfWorkDays <= 20) {
+                if (numberOfWorkDays >= 0 && numberOfWorkDays <= 31) {
                     break;
                 } else {
-                    System.out.println("    ERROR: Please enter a number of work days between 0 and 20.");
+                    System.out.println("    ERROR: Please enter a number of work days between 0 and 31.");
                     System.out.println();
                 }
             } catch (InputMismatchException e) {
