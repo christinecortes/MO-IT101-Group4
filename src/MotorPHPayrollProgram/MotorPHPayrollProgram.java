@@ -98,7 +98,6 @@ public class MotorPHPayrollProgram {
                     generatePayslip(employees, employeeNumber, dates[0], dates[1], daysAndHoursWorked[0], daysAndHoursWorked[1], daysAndHoursWorked[2], overtimePay, grossIncome, totalBenefits, sssMonthlyContribution, philHealthContribution[0], philHealthContribution[1], pagIbigMonthlyContribution, totalMonthlyContribution, taxableIncome, taxAndNetIncome[0], taxAndNetIncome[1], totalDeductions);
                     break;
                 } else if (userInput.contains("n")) {
-                    System.out.println("Thanks! Have a good day!");
                     break;
                 } else {
                     System.out.println("ERROR: Please enter yes or no.");
@@ -296,10 +295,10 @@ public class MotorPHPayrollProgram {
 
                 scan.nextLine(); // Consume excess line
 
-                if (numberOfWorkDays >= 0 && numberOfWorkDays <= 31) {
+                if (numberOfWorkDays >= 0 && numberOfWorkDays <= 22) {
                     break;
                 } else {
-                    System.out.println("    ERROR: Please enter a number of work days between 0 and 31.");
+                    System.out.println("    ERROR: Please enter a number of work days between 0 and 22.");
                     System.out.println();
                 }
             } catch (InputMismatchException e) {
