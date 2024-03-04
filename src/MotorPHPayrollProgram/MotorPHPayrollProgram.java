@@ -3,6 +3,7 @@ package MotorPHPayrollProgram;
 // author Christine
 
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -261,14 +262,41 @@ public class MotorPHPayrollProgram {
 
 
     public static String[] workPeriod() {
+        LocalDate startDate;
+        LocalDate endDate;
+        
         // Create title
         System.out.println("\n\nMONTHLY WORK PERIOD (type in MM/DD/YYYY format)");
         
-        // Prompt user for work period dates
-        System.out.printf("%-4s%-43s", "", "Start date: ");
-        String workStartDate = scan.nextLine();
-        System.out.printf("%-4s%-43s", "", "End date: ");
-        String workEndDate = scan.nextLine();
+        // Set the format to expect a 24-hour clock format from the user
+        DateTimeFormatter formatTime = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+        
+        // Handle input validation
+        do {
+            try {
+                // Prompt user for work period dates
+                System.out.printf("%-4s%-43s", "", "Start date: ");
+                String start = scan.nextLine();
+                
+                startDate = LocalDate.parse(start, formatTime);
+                endDate = startDate.plusMonths(1);
+
+                System.out.printf("%-4s%-43s", "", "End date: ");
+                System.out.println(endDate.format(formatTime));
+
+                // If parsing succeeds, break the loop
+                break;
+            } catch (DateTimeParseException e) {
+                System.out.println("    ERROR: Please enter a valid time in MM/DD/YYYY format.");
+                System.out.println();
+            } catch (Exception e) {
+                System.out.println("    ERROR: Something went wrong.");
+                System.out.println();
+            }
+        } while (true);
+        
+        String workStartDate = startDate.format(formatTime);
+        String workEndDate = endDate.format(formatTime);
         
         String[] dates = {workStartDate, workEndDate};
         return dates;
