@@ -277,12 +277,12 @@ public class MotorPHPayrollProgram {
                 // Prompt user for work period dates
                 System.out.printf("%-4s%-43s", "", "Start date: ");
                 String start = scan.nextLine();
-                
-                startDate = LocalDate.parse(start, formatTime);
-                endDate = startDate.plusMonths(1);
 
                 System.out.printf("%-4s%-43s", "", "End date: ");
-                System.out.println(endDate.format(formatTime));
+                String end = scan.nextLine();
+                
+                startDate = LocalDate.parse(start, formatTime);
+                endDate = LocalDate.parse(end, formatTime);
 
                 // If parsing succeeds, break the loop
                 break;
