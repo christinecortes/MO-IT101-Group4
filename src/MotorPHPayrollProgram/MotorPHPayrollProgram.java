@@ -387,6 +387,15 @@ public class MotorPHPayrollProgram {
             if ((clockIn.isAfter(LocalTime.of(8, 00)) && clockIn.isBefore(LocalTime.of(8, 11))) && clockInMinutes > clockOutMinutes){
                 totalWorkedHours++;
             }
+            
+            // For calculating breaktime
+            if (clockIn.isBefore(LocalTime.of(12, 00)) && clockOut.isAfter(LocalTime.of(13, 00))) {
+                totalWorkedHours--;
+            } else if ((clockOut.isAfter(LocalTime.of(12, 00)) && clockOut.isBefore(LocalTime.of(13, 00))) && (clockInMinutes == clockOutMinutes) && !(clockIn.isAfter(LocalTime.of(8, 00)) && clockIn.isBefore(LocalTime.of(8, 11)))) {
+                totalWorkedHours--;
+            } else if ((clockIn.isAfter(LocalTime.of(12, 00)) && clockIn.isBefore(LocalTime.of(13, 00))) && clockInMinutes <= clockOutMinutes) {
+                totalWorkedHours--;
+            } 
 
             // Print regular and overtime hours for the day
             System.out.printf("%-8s%-39s%-10s", "", "Regular Hours Worked: ", regularHours + " hours");
