@@ -396,6 +396,14 @@ public class MotorPHPayrollProgram {
             } else if ((clockIn.isAfter(LocalTime.of(12, 00)) && clockIn.isBefore(LocalTime.of(13, 00))) && clockInMinutes <= clockOutMinutes) {
                 totalWorkedHours--;
             } 
+            
+            // For calculating regular and overtime hours
+            if (totalWorkedHours <= 8) {
+                regularHours = totalWorkedHours;
+            } else if (totalWorkedHours > 8) {
+                regularHours = 8;
+                overtimeHours = totalWorkedHours - regularHours;
+            }
 
             // Print regular and overtime hours for the day
             System.out.printf("%-8s%-39s%-10s", "", "Regular Hours Worked: ", regularHours + " hours");
