@@ -375,39 +375,24 @@ public class MotorPHPayrollProgram {
                 }
             } while (true);
 
-            // Calculate regular and overtime hours
-            Duration totalWorkedHours = Duration.between(clockIn, clockOut);
-            Duration regularHours = Duration.ZERO;
-            Duration overtimeHours = Duration.ZERO;
-
-            // Check if clock-out time is after 17:00
-            if (clockOut.isAfter(LocalTime.of(17, 00))) {
-                // Calculate regular hours until 17:00
-                regularHours = Duration.between(clockIn, LocalTime.of(17, 00));
-                // Calculate overtime hours from 17:00 to clock-out time
-                overtimeHours = Duration.between(LocalTime.of(17, 00), clockOut);
-            } else {
-                // Clock-out time is before 17:00, all hours are regular
-                regularHours = totalWorkedHours;
-            }
+            // Initialize variables
+            Duration total = Duration.between(clockIn, clockOut);
+            int totalWorkedHours = total.toHoursPart();
+            int regularHours = 0;
+            int overtimeHours = 0;
+            int clockInMinutes = clockIn.getMinute();
+            int clockOutMinutes = clockOut.getMinute();
             
-            // Check if clock-in time is after 17:00
-            if (clockIn.isAfter(LocalTime.of(17, 00))) {
-                // Regular hours must equal to zero
-                regularHours = Duration.ZERO;
-                // Calculate overtime hours from 17:00 to clock-out time
-                overtimeHours = Duration.between(clockIn, clockOut);
-            }
 
             // Print regular and overtime hours for the day
-            System.out.printf("%-8s%-39s%-10s", "", "Regular Hours Worked: ", regularHours.toHoursPart() + " hours");
+            System.out.printf("%-8s%-39s%-10s", "", "Regular Hours Worked: ", regularHours + " hours");
             System.out.println();
-            System.out.printf("%-8s%-39s%-10s", "", "Overtime Hours Worked: ", overtimeHours.toHoursPart() + " hours");
+            System.out.printf("%-8s%-39s%-10s", "", "Overtime Hours Worked: ", overtimeHours + " hours");
             System.out.println();
 
             // Calculate total regular and overtime hours worked in the month
-            totalRegularHoursWorkedInAMonth += regularHours.toHoursPart();
-            totalOvertimeHoursWorkedInAMonth += overtimeHours.toHoursPart();
+            totalRegularHoursWorkedInAMonth += regularHours;
+            totalOvertimeHoursWorkedInAMonth += overtimeHours;
         }
         
         // Print the total hours worked in a month
