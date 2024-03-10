@@ -383,6 +383,10 @@ public class MotorPHPayrollProgram {
             int clockInMinutes = clockIn.getMinute();
             int clockOutMinutes = clockOut.getMinute();
             
+            // For considering grace period of 08:00 to 08:10
+            if ((clockIn.isAfter(LocalTime.of(8, 00)) && clockIn.isBefore(LocalTime.of(8, 11))) && clockInMinutes > clockOutMinutes){
+                totalWorkedHours++;
+            }
 
             // Print regular and overtime hours for the day
             System.out.printf("%-8s%-39s%-10s", "", "Regular Hours Worked: ", regularHours + " hours");
