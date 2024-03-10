@@ -375,39 +375,45 @@ public class MotorPHPayrollProgram {
                 }
             } while (true);
 
-            // Calculate regular and overtime hours
-            Duration totalWorkedHours = Duration.between(clockIn, clockOut);
-            Duration regularHours = Duration.ZERO;
-            Duration overtimeHours = Duration.ZERO;
-
-            // Check if clock-out time is after 17:00
-            if (clockOut.isAfter(LocalTime.of(17, 00))) {
-                // Calculate regular hours until 17:00
-                regularHours = Duration.between(clockIn, LocalTime.of(17, 00));
-                // Calculate overtime hours from 17:00 to clock-out time
-                overtimeHours = Duration.between(LocalTime.of(17, 00), clockOut);
-            } else {
-                // Clock-out time is before 17:00, all hours are regular
-                regularHours = totalWorkedHours;
+            // Initialize variables
+            Duration total = Duration.between(clockIn, clockOut);
+            int totalWorkedHours = total.toHoursPart();
+            int regularHours = 0;
+            int overtimeHours = 0;
+            int clockInMinutes = clockIn.getMinute();
+            int clockOutMinutes = clockOut.getMinute();
+            
+            // For considering grace period of 08:00 to 08:10
+            if ((clockIn.isAfter(LocalTime.of(8, 00)) && clockIn.isBefore(LocalTime.of(8, 11))) && clockInMinutes > clockOutMinutes){
+                totalWorkedHours++;
             }
             
-            // Check if clock-in time is after 17:00
-            if (clockIn.isAfter(LocalTime.of(17, 00))) {
-                // Regular hours must equal to zero
-                regularHours = Duration.ZERO;
-                // Calculate overtime hours from 17:00 to clock-out time
-                overtimeHours = Duration.between(clockIn, clockOut);
+            // For calculating breaktime
+            if (clockIn.isBefore(LocalTime.of(12, 00)) && clockOut.isAfter(LocalTime.of(13, 00))) {
+                totalWorkedHours--;
+            } else if ((clockOut.isAfter(LocalTime.of(12, 00)) && clockOut.isBefore(LocalTime.of(13, 00))) && (clockInMinutes == clockOutMinutes) && !(clockIn.isAfter(LocalTime.of(8, 00)) && clockIn.isBefore(LocalTime.of(8, 11)))) {
+                totalWorkedHours--;
+            } else if ((clockIn.isAfter(LocalTime.of(12, 00)) && clockIn.isBefore(LocalTime.of(13, 00))) && clockInMinutes <= clockOutMinutes) {
+                totalWorkedHours--;
+            } 
+            
+            // For calculating regular and overtime hours
+            if (totalWorkedHours <= 8) {
+                regularHours = totalWorkedHours;
+            } else if (totalWorkedHours > 8) {
+                regularHours = 8;
+                overtimeHours = totalWorkedHours - regularHours;
             }
 
             // Print regular and overtime hours for the day
-            System.out.printf("%-8s%-39s%-10s", "", "Regular Hours Worked: ", regularHours.toHoursPart() + " hours");
+            System.out.printf("%-8s%-39s%-10s", "", "Regular Hours Worked: ", regularHours + " hours");
             System.out.println();
-            System.out.printf("%-8s%-39s%-10s", "", "Overtime Hours Worked: ", overtimeHours.toHoursPart() + " hours");
+            System.out.printf("%-8s%-39s%-10s", "", "Overtime Hours Worked: ", overtimeHours + " hours");
             System.out.println();
 
             // Calculate total regular and overtime hours worked in the month
-            totalRegularHoursWorkedInAMonth += regularHours.toHoursPart();
-            totalOvertimeHoursWorkedInAMonth += overtimeHours.toHoursPart();
+            totalRegularHoursWorkedInAMonth += regularHours;
+            totalOvertimeHoursWorkedInAMonth += overtimeHours;
         }
         
         // Print the total hours worked in a month
