@@ -1,6 +1,6 @@
 package MotorPHPayrollProgram;
 
-// author Christine
+// author Group 4
 
 import java.time.Duration;
 import java.time.LocalDate;
@@ -389,11 +389,15 @@ public class MotorPHPayrollProgram {
             }
             
             // For calculating breaktime
-            if (clockIn.isBefore(LocalTime.of(12, 00)) && clockOut.isAfter(LocalTime.of(13, 00))) {
+            if (clockIn.isBefore(LocalTime.of(12, 00)) && clockOut.isAfter(LocalTime.of(12, 59))) {
                 totalWorkedHours--;
+            } else if ((clockIn.equals(LocalTime.of(12, 00)) && clockOut.equals(LocalTime.of(13, 00)))) {
+                totalWorkedHours--;
+            } else if (clockIn.isAfter(LocalTime.of(11, 59)) && clockOut.isBefore(LocalTime.of(13, 01))) {
+                totalWorkedHours = 0;
             } else if ((clockOut.isAfter(LocalTime.of(12, 00)) && clockOut.isBefore(LocalTime.of(13, 00))) && (clockInMinutes == clockOutMinutes) && !(clockIn.isAfter(LocalTime.of(8, 00)) && clockIn.isBefore(LocalTime.of(8, 11)))) {
                 totalWorkedHours--;
-            } else if ((clockIn.isAfter(LocalTime.of(12, 00)) && clockIn.isBefore(LocalTime.of(13, 00))) && clockInMinutes <= clockOutMinutes) {
+            } else if ((clockIn.isAfter(LocalTime.of(11, 59)) && clockIn.isBefore(LocalTime.of(13, 00))) && clockInMinutes <= clockOutMinutes) {
                 totalWorkedHours--;
             } 
             
