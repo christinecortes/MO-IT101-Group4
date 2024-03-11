@@ -14,6 +14,7 @@ The MotorPH Payroll Program is a Java application developed to facilitate employ
 2. Generate a payslip to view the detailed breakdown of the employee's earnings for the month.
 
 ## Features
+- Display employee list
 - Display employee details based on the inputted employee number
 - Calculate gross income based on hours worked, hourly rate, and overtime pay
 - Calculate total benefits including rice subsidy, phone allowance, and clothing allowance
