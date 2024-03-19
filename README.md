@@ -25,7 +25,7 @@ The MotorPH Payroll Program is a Java application developed to facilitate employ
 - Generate detailed monthly payslips for employees.
 - Option to calculate another employee’s salary.
 
-## LIMITATIONS: 
+## Limitations
 - The program computes for a 1-month payslip.
 - Work starts at 08:00 with a grace period of 10 minutes.
 - The user is expected to input the correct cutoff dates for the work period, as these dates will appear on the payslip.
