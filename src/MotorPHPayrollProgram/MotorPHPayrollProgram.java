@@ -112,7 +112,7 @@ public class MotorPHPayrollProgram {
         double totalMonthlyContribution = governmentContributions(sssMonthlyContribution, philHealthContribution[1], pagIbigMonthlyContribution);
         double taxableIncome = taxableIncomeCalculation(grossIncome, totalMonthlyContribution);
         double[] taxAndNetIncome = withholdingTaxCalculation(taxableIncome);
-        double totalDeductions = summary(sssMonthlyContribution, philHealthContribution[1], pagIbigMonthlyContribution, taxAndNetIncome[0], taxAndNetIncome[1]);
+        double totalDeductions = summary(totalMonthlyContribution, taxAndNetIncome[0]);
         
         String userInput;
         
@@ -415,21 +415,27 @@ public class MotorPHPayrollProgram {
             int clockInMinutes = clockIn.getMinute();
             int clockOutMinutes = clockOut.getMinute();
             
-            // For considering grace period of 08:00 to 08:10
+            // For considering grace period of 08:01 to 08:10
             if ((clockIn.isAfter(LocalTime.of(8, 00)) && clockIn.isBefore(LocalTime.of(8, 11))) && clockInMinutes > clockOutMinutes){
                 totalWorkedHours++;
             }
             
             // For calculating breaktime
             if (clockIn.isBefore(LocalTime.of(12, 00)) && clockOut.isAfter(LocalTime.of(12, 59))) {
-                totalWorkedHours--;
-            } else if ((clockIn.equals(LocalTime.of(12, 00)) && clockOut.equals(LocalTime.of(13, 00)))) {
+                // If clock-in and clock-out is outside 12:00 to 13:00, minus 1 hour worked
                 totalWorkedHours--;
             } else if (clockIn.isAfter(LocalTime.of(11, 59)) && clockOut.isBefore(LocalTime.of(13, 01))) {
+                // 0 hours worked if the clock-in and clock-out falls on the breaktime period
                 totalWorkedHours = 0;
             } else if ((clockOut.isAfter(LocalTime.of(12, 00)) && clockOut.isBefore(LocalTime.of(13, 00))) && (clockInMinutes == clockOutMinutes) && !(clockIn.isAfter(LocalTime.of(8, 00)) && clockIn.isBefore(LocalTime.of(8, 11)))) {
+                // If clock-out falls between 12:00 to 13:00, and if the clock-in and clock-out minutes are equal, and if the clock-in doesn't fall on the grace period, then minus 1 hour worked
+                // example: 08:30, 12:30 will return 3 hours instead of 4 hours
+                // example: 08:08, 12:08 will still return 4 hours because the clock in falls on the grace period
                 totalWorkedHours--;
             } else if ((clockIn.isAfter(LocalTime.of(11, 59)) && clockIn.isBefore(LocalTime.of(13, 00))) && clockInMinutes <= clockOutMinutes) {
+                // If clock-in falls between 12:00 to 13:00, and clock-in minutes is equal to or less than the clock-out minutes, minus 1 hour worked
+                // example: 12:30, 14:30 will return 1 hour instead of 2 hours
+                // example: 12:30, 14:40 will return 1 hour instead of 2 hours
                 totalWorkedHours--;
             } 
             
@@ -606,9 +612,9 @@ public class MotorPHPayrollProgram {
     }
     
     
-    public static double summary(double sssMonthlyContribution, double employeeShare, double pagIbigMonthlyContribution, double withholdingTax, double netIncome) {
+    public static double summary(double totalMonthlyContribution, double withholdingTax) {
         // Total deductions breakdown
-        double totalDeductions = sssMonthlyContribution + employeeShare + pagIbigMonthlyContribution + withholdingTax;
+        double totalDeductions = totalMonthlyContribution + withholdingTax;
         return totalDeductions;
     }
     
