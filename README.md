@@ -14,13 +14,24 @@ The MotorPH Payroll Program is a Java application developed to facilitate employ
 2. Generate a payslip to view the detailed breakdown of the employee's earnings for the month.
 
 ## Features
-- Display employee list
-- Display employee details based on the inputted employee number
-- Calculate gross income based on hours worked, hourly rate, and overtime pay
-- Calculate total benefits including rice subsidy, phone allowance, and clothing allowance
-- Calculate mandatory government contributions including SSS, PhilHealth, and Pag-IBIG
-- Calculate the taxable income
-- Calculate the withholding tax based on the monthly income tax bracket
-- Calculate the net income after applying all contributions and tax
-- Generate detailed monthly payslips for employees
-- Option to calculate another employee’s salary
+- Display employee list.
+- Display employee details based on the inputted employee number.
+- Calculate gross income based on hours worked, hourly rate, and overtime pay.
+- Calculate total benefits including rice subsidy, phone allowance, and clothing allowance.
+- Calculate mandatory government contributions including SSS, PhilHealth, and Pag-IBIG.
+- Calculate the taxable income.
+- Calculate the withholding tax based on the monthly income tax bracket.
+- Calculate the net income after applying all contributions and tax.
+- Generate detailed monthly payslips for employees.
+- Option to calculate another employee’s salary.
+
+## LIMITATIONS: 
+- The program computes for a 1-month payslip.
+- Work starts at 08:00 with a grace period of 10 minutes.
+- The user is expected to input the correct cutoff dates for the work period, as these dates will appear on the payslip.
+- The maximum number of working days in a month is 20 days.
+- The fixed break time period from 12:00 to 13:00 will never be considered part of the working hours.
+- Hours are only considered for hours worked per day; any excess minutes worked are disregarded.
+- The maximum regular paid hours are 8 hours; exceeding this is considered overtime hours.
+- The overtime rate is fixed at 125% of the hourly rate.
+- The basic salary (fixed) is used to calculate SSS, PhilHealth, and Pag-ibig contributions.
